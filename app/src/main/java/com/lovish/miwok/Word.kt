@@ -14,13 +14,18 @@ class Word{
     var miwok : String
     var default : String
     var img : Int = -1
-    constructor(miwok : String, default : String){
+    var audio: Int = -1
+
+    constructor(miwok: String, default: String, audio: Int) {
         this.miwok = miwok
         this.default = default
+        this.audio = audio
     }
-    constructor(miwok : String, default : String, img : Int){
+
+    constructor(miwok: String, default: String, img: Int, audio: Int) {
         this.miwok = miwok
         this.default = default
+        this.audio = audio
         this.img = img
     }
 }
