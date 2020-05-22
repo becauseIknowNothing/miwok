@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 class PhrasesActiivity : AppCompatActivity() {
-    lateinit var mMediaPlayer: MediaPlayer
+    var mMediaPlayer: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.word_list)
@@ -22,14 +22,29 @@ class PhrasesActiivity : AppCompatActivity() {
         words.add(Word("I’m coming.", "әәnәm", R.raw.phrase_im_coming))
         words.add(Word("Let’s go.", "yoowutis", R.raw.phrase_lets_go))
         words.add(Word("Come here.", "әnni'nem", R.raw.phrase_come_here))
-
         var items  = WordAdapter(this, words, R.color.category_phrases)
         var listView : ListView = findViewById(R.id.wordList)
         listView.adapter = items
         listView.setOnItemClickListener { parent, view, position, id ->
+            releaseMP()
             val word = words[position]
             mMediaPlayer = MediaPlayer.create(this, word.audio)
-            mMediaPlayer.start()
+            mMediaPlayer!!.start()
+            mMediaPlayer!!.setOnCompletionListener { mp -> releaseMP() }
         }
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        releaseMP()
+    }
+
+    private fun releaseMP() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer!!.release()
+            mMediaPlayer = null
+        }
+
     }
 }

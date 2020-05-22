@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 class NumbersActivity : AppCompatActivity() {
-    lateinit var mMediaPlayer: MediaPlayer
+    var mMediaPlayer: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.word_list)
@@ -27,9 +27,24 @@ class NumbersActivity : AppCompatActivity() {
         val listView : ListView = findViewById(R.id.wordList)
         listView.adapter = items
         listView.setOnItemClickListener { parent, view, position, id ->
+            releaseMP()
             val word = words[position]
             mMediaPlayer = MediaPlayer.create(this, word.audio)
-            mMediaPlayer.start()
+            mMediaPlayer!!.start()
+            mMediaPlayer!!.setOnCompletionListener { mp -> releaseMP() }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        releaseMP()
+    }
+
+    private fun releaseMP() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer!!.release()
+            mMediaPlayer = null
+        }
+
     }
 }
