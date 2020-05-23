@@ -2,8 +2,9 @@ package com.lovish.miwok
 
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 
 class FamilyActivity : AppCompatActivity() {
@@ -64,16 +65,10 @@ class FamilyActivity : AppCompatActivity() {
                 R.raw.family_grandfather
             )
         )
-        val items = WordAdapter(this, words, R.color.category_family)
-        var listView: ListView = findViewById(R.id.wordList)
-        listView.adapter = items
-        listView.setOnItemClickListener { parent, view, position, id ->
-            releaseMP()
-            val word = words[position]
-            mMediaPlayer = MediaPlayer.create(this, word.audio)
-            mMediaPlayer!!.start()
-            mMediaPlayer!!.setOnCompletionListener { mp -> releaseMP() }
-        }
+        val adapter = WordAdapter(words, R.color.category_family)
+        val rv = findViewById<RecyclerView>(R.id.wordList)
+        rv.layoutManager = LinearLayoutManager(this)
+        rv.adapter = adapter
     }
 
     override fun onStop() {
@@ -82,9 +77,9 @@ class FamilyActivity : AppCompatActivity() {
     }
 
     private fun releaseMP() {
-        if (mMediaPlayer != null) {
-            mMediaPlayer!!.release()
-            mMediaPlayer = null
+        if (Ms.mMediaPlayer != null) {
+            Ms.mMediaPlayer!!.release()
+            Ms.mMediaPlayer = null
         }
 
     }

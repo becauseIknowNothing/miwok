@@ -1,14 +1,13 @@
 package com.lovish.miwok
 
 
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 
 class NumbersActivity : AppCompatActivity() {
-    var mMediaPlayer: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.word_list)
@@ -23,16 +22,10 @@ class NumbersActivity : AppCompatActivity() {
         words.add(Word("eight", "kawinta", R.drawable.number_eight, R.raw.number_eight))
         words.add(Word("nine", "wo’e", R.drawable.number_nine, R.raw.number_nine))
         words.add(Word("ten", "na’aacha", R.drawable.number_ten, R.raw.number_ten))
-        val items  = WordAdapter(this, words, R.color.category_numbers)
-        val listView : ListView = findViewById(R.id.wordList)
-        listView.adapter = items
-        listView.setOnItemClickListener { parent, view, position, id ->
-            releaseMP()
-            val word = words[position]
-            mMediaPlayer = MediaPlayer.create(this, word.audio)
-            mMediaPlayer!!.start()
-            mMediaPlayer!!.setOnCompletionListener { mp -> releaseMP() }
-        }
+        val adapter = WordAdapter(words, R.color.category_numbers)
+        val rv = findViewById<RecyclerView>(R.id.wordList)
+        rv.layoutManager = LinearLayoutManager(this)
+        rv.adapter = adapter
     }
 
     override fun onStop() {
@@ -41,9 +34,9 @@ class NumbersActivity : AppCompatActivity() {
     }
 
     private fun releaseMP() {
-        if (mMediaPlayer != null) {
-            mMediaPlayer!!.release()
-            mMediaPlayer = null
+        if (Ms.mMediaPlayer != null) {
+            Ms.mMediaPlayer!!.release()
+            Ms.mMediaPlayer = null
         }
 
     }

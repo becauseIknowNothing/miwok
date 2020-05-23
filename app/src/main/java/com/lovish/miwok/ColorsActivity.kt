@@ -3,8 +3,9 @@ package com.lovish.miwok
 
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 
 class ColorsActivity : AppCompatActivity() {
@@ -35,16 +36,10 @@ class ColorsActivity : AppCompatActivity() {
         words.add(Word("gray", "ṭopoppi", R.drawable.color_gray, R.raw.color_gray))
         words.add(Word("black", "kululli", R.drawable.color_black, R.raw.color_black))
         words.add(Word("white", "kelelli", R.drawable.color_white, R.raw.color_white))
-        var items= WordAdapter(this, words, R.color.category_colors)
-        var listView : ListView = findViewById(R.id.wordList)
-        listView.adapter = items
-        listView.setOnItemClickListener { parent, view, position, id ->
-            releaseMP()
-            val word = words[position]
-            mMediaPlayer = MediaPlayer.create(this, word.audio)
-            mMediaPlayer!!.start()
-            mMediaPlayer!!.setOnCompletionListener { mp -> releaseMP() }
-        }
+        val adapter = WordAdapter(words, R.color.category_colors)
+        val rv = findViewById<RecyclerView>(R.id.wordList)
+        rv.layoutManager = LinearLayoutManager(this)
+        rv.adapter = adapter
     }
 
     override fun onStop() {
@@ -53,9 +48,9 @@ class ColorsActivity : AppCompatActivity() {
     }
 
     private fun releaseMP() {
-        if (mMediaPlayer != null) {
-            mMediaPlayer!!.release()
-            mMediaPlayer = null
+        if (Ms.mMediaPlayer != null) {
+            Ms.mMediaPlayer!!.release()
+            Ms.mMediaPlayer = null
         }
 
     }
