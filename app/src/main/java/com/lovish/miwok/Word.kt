@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-
 object Ms {
     var mMediaPlayer: MediaPlayer? = null
 }
