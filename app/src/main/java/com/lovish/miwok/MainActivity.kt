@@ -1,10 +1,9 @@
 package com.lovish.miwok
 
-
+import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
 
 
 class MainActivity : AppCompatActivity(){
@@ -12,12 +11,23 @@ class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val fragmentAdapter = PagerAdapter(supportFragmentManager)
-        val viewpager_main = findViewById<ViewPager>(R.id.viewpager_main)
-        val tabs_main = findViewById<TabLayout>(R.id.tabs_main)
+        findViewById<TextView>(R.id.numbers).setOnClickListener {
+            val i = Intent(this, NumbersActivity::class.java)
+            startActivity(i)
+        }
+        findViewById<TextView>(R.id.phrases).setOnClickListener {
+            val i = Intent(this, PhrasesActiivity::class.java)
+            startActivity(i)
+        }
+        findViewById<TextView>(R.id.family).setOnClickListener {
+            val i = Intent(this, FamilyActivity::class.java)
+            startActivity(i)
+        }
+        findViewById<TextView>(R.id.colors).setOnClickListener {
+            val i = Intent(this, ColorsActivity::class.java)
+            startActivity(i)
+        }
 
-        viewpager_main.adapter = fragmentAdapter
 
-        tabs_main.setupWithViewPager(viewpager_main)
     }
 }
